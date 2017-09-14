@@ -7,7 +7,7 @@ Hi, My name is Dhritiman Ganguly. I am a graduate student pursuing MS in CS from
 5. developing a 2d platformer game in Director MX using Lingo.
 
 <h2>About this repository</h2>
-This repository will host all my work for the assignments and the project for my Web Development course.
+This repository will contain my code for the assignments and the project for my Web Development course.
 
 <h2>Assignment 1 app on Heroku link</h2>
 https://webdev-ganguly-dhritiman.herokuapp.com/test
