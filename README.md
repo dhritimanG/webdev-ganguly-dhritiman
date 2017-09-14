@@ -1,10 +1,12 @@
 <h1>About Me</h1>
 Hi, My name is Dhritiman Ganguly. I am a graduate student pursuing MS in CS from Northeastern University. This semester I am taking CS 5610: Web Development and CS 5200: Database Management System under Prof. Jose Annunziato. Some of the projects I have worked on in the past include:
-1. creating a prototype Demonstrator app using Java Swing, XML and JDOM, 
-2. renovating my undergrad college cultural and tech-fest website using HTML5, CSS and PHP,
-3. developing a DTMF-controlled Surveillance Drone,
-4. designing a Flash application with GUI illustrating the FIFO, LRU and Optimal Page Replacement policies using ActionScript.
-5. developing a 2d platformer game in Director MX using Lingo.
+<li>
+  <ul> creating a prototype Demonstrator app using Java Swing, XML and JDOM </ul>
+  <ul> renovating my undergrad college cultural and tech-fest website using HTML5, CSS and PHP </ul>
+  <ul> developing a DTMF-controlled Surveillance Drone </ul>
+  <ul> designing a Flash application with GUI illustrating the FIFO, LRU and Optimal Page Replacement policies using ActionScript </ul>
+  <ul> developing a 2d platformer game in Director MX using Lingo </ul>
+</li>
 
 <h2>About this repository</h2>
 This repository will contain my code for the assignments and the project for my Web Development course.
