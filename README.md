@@ -12,7 +12,7 @@ Hi, My name is Dhritiman Ganguly. I am a graduate student pursuing MS in CS from
 This repository will contain my code for the assignments and the project for my Web Development course.
 
 <h2>Assignment 1 app on Heroku link</h2>
-https://webdev-ganguly-dhritiman.herokuapp.com/test
+https://webdev-ganguly-dhritiman.herokuapp.com/
 
 # AngularFourMEANSeed
 
