@@ -1,3 +1,5 @@
+<h1>About Me</h1>
+
 # AngularFourMEANSeed
 
 After you clone this repository and run "npm install"
