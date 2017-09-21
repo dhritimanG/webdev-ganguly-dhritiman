@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Meta tags for making website for mobile-->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="viewport" content="initial-scale=1.25, user-scalable=no">
-
-
   <meta charset="UTF-8">
-  <title>User Register</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-
-
-  <!-- STYLE sheet comes after all the libraries are loaded. Document style-->
-
-  <link href="../css/style.css" rel="stylesheet"/>
+  <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  <link rel = "stylesheet" href = "../../vendors/bootstrap/dist/css/bootstrap.min.css">
+  <link rel = "stylesheet" href = "../../css/styles.css">
+  <script src="../../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+  <title>Title</title>
 </head>
-
 <body>
-<div class="container">
+<div class = "container-fluid">
   <h1>Register</h1>
-  <input placeholder="username"
+  <input placeholder="alice"
          type="text"
+         id="username"
          class="form-control"/>
-  <input placeholder="password"
-         type="password"
-         class="form-control"/>
-  <input placeholder="verify password"
-         type="password"
-         class="form-control"/>
-  <a class="btn btn-primary btn-block"
-     href="profile.html">Register</a>
-  <a class="btn btn-danger btn-block"
-     href="login.html" >Cancel</a>
+
+    <input
+    placeholder="bjhbejfb!475y@dhu3i4"
+    type="password"
+    id="password"
+    class="form-control"/>
+
+    <input
+      placeholder="verify password"
+      type="password"
+      id="verify"
+      class="form-control"/>
+  <a href = "profile.html" class="btn btn-primary btn-block">Register</a>
+  <a href = "login.html" class="btn btn-danger btn-block">Cancel</a>
 
 </div>
 </body>
