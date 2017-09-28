@@ -5,8 +5,30 @@ input {
 nav {
   margin-bottom: 5px;
   color : white;
+  background-color: #007bff;
   font-size : 25px;
 
+}
+
+#page-nav{
+  background-color: lightgray;
+}
+
+.dg-widget{
+  padding-bottom: 10px;
+}
+
+.dg-toolbar{
+  position: absolute;
+  right: 7px;
+  background-color: white;
+  padding: 7px;
+  border-bottom-left-radius: 10px;
+
+}
+
+.dg-widget .dg-content{
+  width: 100%;
 }
 
 footer {
@@ -16,4 +38,14 @@ footer {
   height: 60px;
   background-color: #007bff;
   padding-top: 0.7rem;
+}
+
+#foot-nav{
+  background-color: lightgray;
+
+}
+
+row {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
