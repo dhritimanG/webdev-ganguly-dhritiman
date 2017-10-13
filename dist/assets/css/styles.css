@@ -18,6 +18,39 @@ nav {
   padding-bottom: 10px;
 }
 
+.dg-nav-items a{
+  color: white;
+  font-size: 25px;
+
+}
+
+.dg-left-pane{
+  margin-top: 65px;
+  border-right: solid;
+  border-right-color: lightgray;
+  height: 100vh;
+}
+
+.dg-left-pane-items{
+  margin-left: 10px;
+  padding-top: 20px;
+  color: #007bff;
+  font-size: 25px;
+}
+
+.dg-right-pane{
+  margin-top: 60px;
+}
+
+.dg-right-pane-items{
+  padding-top: 20px;
+}
+
+
+.dg-nav-items navbar-brand{
+  padding-top: 20px;
+}
+
 .dg-toolbar{
   position: absolute;
   right: 7px;
