@@ -15,6 +15,10 @@ export class LandingComponent implements OnInit {
 
   }
 
+  landing(username: String, password: String) {
+  this.router.navigate(['./profile']);
+}
+
   ngOnInit() {
   }
 

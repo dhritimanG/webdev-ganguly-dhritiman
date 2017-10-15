@@ -26,6 +26,10 @@ import { WidgetImageComponent } from './components/widget/widget-edit/widget-ima
 import { WidgetYoutubeComponent } from './components/widget/widget-edit/widget-youtube/widget-youtube.component';
 import { LandingComponent } from './components/user/landing/landing.component';
 
+import { UserService } from './services/user.service.client';
+
+
+
 @NgModule({
   // Declare components here
   declarations: [
@@ -57,7 +61,7 @@ import { LandingComponent } from './components/user/landing/landing.component';
     Routing
   ],
   // Client Side services here
-  providers: [ TestService],
+  providers: [ TestService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

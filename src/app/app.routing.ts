@@ -8,7 +8,7 @@ import {ModuleWithProviders} from '@angular/core';
 import {TestComponent} from './components/test/test.component';
 import {LandingComponent} from './components/user/landing/landing.component';
 import {RegisterComponent} from './components/user/register/register.component';
-
+import {ProfileComponent} from './components/user/profile/profile.component';
 
 
 const APP_ROUTES: Routes = [
@@ -16,6 +16,8 @@ const APP_ROUTES: Routes = [
   {path: 'test', component: TestComponent},
   {path : 'landing' , component: LandingComponent},
   {path : 'register' , component: RegisterComponent},
+  {path : 'profile' , component: ProfileComponent},
+
 ];
 
 // Export the routes as module providers
