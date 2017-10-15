@@ -16,7 +16,7 @@ const APP_ROUTES: Routes = [
   {path: 'test', component: TestComponent},
   {path : 'landing' , component: LandingComponent},
   {path : 'register' , component: RegisterComponent},
-  {path : 'profile' , component: ProfileComponent},
+  {path : 'user/:userId' , component: ProfileComponent},
 
 ];
 

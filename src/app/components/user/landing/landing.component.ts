@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {  Router } from '@angular/router';
+import {User} from '../../../models/user.model.client';
+import {UserService} from '../../../services/user.service.client';
 
 @Component({
   selector: 'app-landing',
@@ -11,13 +13,17 @@ export class LandingComponent implements OnInit {
   username: String;
   password: String;
 
-  constructor(private router: Router) {
+  constructor(private userService: UserService, private router: Router) {
 
   }
 
   landing(username: String, password: String) {
-  this.router.navigate(['./profile']);
-}
+    const user: User = this.userService.findUserByCredentials(username, password);
+    if (user) {
+      this.router.navigate(['./user', user._id]);
+
+    }
+  }
 
   ngOnInit() {
   }
