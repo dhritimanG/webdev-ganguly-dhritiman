@@ -27,6 +27,9 @@ import { WidgetYoutubeComponent } from './components/widget/widget-edit/widget-y
 import { LandingComponent } from './components/user/landing/landing.component';
 
 import { UserService } from './services/user.service.client';
+import {WebsiteService} from './services/website.service.client';
+import {PageService} from './services/page.service.client';
+import {WidgetService} from './services/widget.service.client';
 
 
 
@@ -61,7 +64,7 @@ import { UserService } from './services/user.service.client';
     Routing
   ],
   // Client Side services here
-  providers: [ TestService, UserService],
+  providers: [ TestService, UserService, WebsiteService, PageService, WidgetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,15 +13,17 @@ export class UserService {
   constructor() { }
 
   users: User[] = [
-    {_id: '123', username: 'alice', password: 'alice', firstName: 'Alice', lastName: 'Wonder'},
-    {_id: '234', username: 'bob', password: 'bob', firstName: 'Bob', lastName: 'Marley'},
-    // ... rest of user objects
+    {_id: '123', username: 'alice', password: 'alice', email: 'alice.wonder@gmail.com', firstName: 'Alice', lastName: 'Wonder'},
+    {_id: '234', username: 'bob', password: 'bob', email: 'bob.marley@gmail.com', firstName: 'Bob', lastName: 'Marley'},
+    {_id: '345', username: 'charly',   password: 'charly', email: 'charly.garcia@gmail.com', firstName: 'Charly', lastName: 'Garcia'  },
+    {_id: '456', username: 'jannunzi', password: 'jannunzi', email: 'j.annunzi@gmail.com', firstName: 'Jose',   lastName: 'Annunzi' }
   ];
 
   api = {
     'createUser'   : this.createUser,
     'findUserById' : this.findUserById,
-    'findUserByUsername' : this.findUserByUsername
+    'findUserByUsername' : this.findUserByUsername,
+    'findUserByCredentials' : this.findUserByCredentials
   };
 
   createUser(user: any) {
@@ -47,6 +49,23 @@ export class UserService {
       return user.username === username && user.password === password;
     });
   }
-  // updateUser(userId, user) { … }
-  // deleteUser(userId) { … }
+  updateUser(userId, user) {
+    for (let x = 0; x < this.users.length; x++) {
+      if (this.users[x]['_id'] === userId) {
+        this.users[x]['username'] = user.username;
+        this.users[x]['email'] = user.email;
+        this.users[x]['firstName'] = user.firstName;
+        this.users[x]['lastName'] = user.lastName;
+        return this.users[x];
+      }
+    }
+  }
+  deleteUser(userId) {
+    for (let x = 0; x < this.users.length; x++) {
+      if (this.users[x]._id === userId) {
+        delete this.users[x];
+      }
+    }
+  }
+
 }
