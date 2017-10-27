@@ -50,7 +50,12 @@ export class WidgetImageComponent implements OnInit {
     this.widget['width'] = this.imgWidth;
     this.widget['upload'] = this.uploadImage;
     this.widget['name'] = this.imgName;
-    this.widgetService.createWidget(this.pageId, this.widget);
+    this.widgetService.createWidget(this.pageId, this.widget)
+      .subscribe((widget) => {
+        if (widget) {
+          this.widget = widget;
+        }
+      });
   }
 
   updateWidget() {
@@ -60,11 +65,18 @@ export class WidgetImageComponent implements OnInit {
     this.widget['width'] = this.imgWidth;
     this.widget['upload'] = this.uploadImage;
     this.widget['name'] = this.imgName;
-    this.widgetService.updateWidget(this.widgetId, this.widget);
+    this.widgetService.updateWidget(this.widgetId, this.widget)
+      .subscribe((widget) => {
+        if (widget) {
+          this.widget = widget;
+        }
+      });
   }
 
   deleteWidget() {
-    this.widgetService.deleteWidget(this.widgetId);
+    this.widgetService.deleteWidget(this.widgetId)
+      .subscribe((widget) => {
+      });
   }
 
 }

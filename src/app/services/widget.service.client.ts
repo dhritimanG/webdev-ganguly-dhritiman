@@ -1,9 +1,15 @@
 import {Injectable} from '@angular/core';
+import 'rxjs/Rx';
+import {Http, Response} from '@angular/http';
+import {environment} from '../../environments/environment';
 
 
 @Injectable()
 
 export class WidgetService {
+
+  constructor(private http: Http) {}
+
   widgets = [
     {'_id': '123', 'widgetType': 'HEADING', 'pageId': '321', 'size': 2, 'text': 'GIZMODO'},
     {'_id': '234', 'widgetType': 'HEADING', 'pageId': '321', 'size': 4, 'text': 'Lorem ipsum'},
@@ -21,58 +27,84 @@ export class WidgetService {
   ];
 
   createWidget(pageId, widget) {
-    widget._id = Math.random();
-    widget.pageId = pageId;
-    this.widgets.push(widget);
-    return widget;
+    // widget._id = Math.random();
+    // widget.pageId = pageId;
+    // this.widgets.push(widget);
+    // return widget;
+    const url = 'http://localhost:3100/api/page/' + pageId + '/widget';
+    return this.http.post(url, widget)
+      .map(
+        (res: Response) => {
+          return res.json();
+        }
+      );
   }
 
   findWidgetsByPageId(pageId) {
-    return this.widgets.filter(function (widget) {
-      return widget.pageId === pageId;
-    });
+    const url = 'http://localhost:3100/api/page/' + pageId + '/widget';
+    return this.http.get(url)
+      .map(
+        (res: Response) => {
+          return res.json();
+        }
+      );
   }
 
   findWidgetById(widgetId) {
-    return this.widgets.find(function (widget) {
-      return widget._id === widgetId;
-    });
+    const url = 'http://localhost:3100/api/widget/' + widgetId;
+    return this.http.get(url)
+      .map(
+        (res: Response) => {
+          return res.json();
+        }
+      );
   }
 
   updateWidget(widgetId, widget) {
-    for (let x = 0; x < this.widgets.length; x++) {
-      if (this.widgets[x]._id === widgetId) {
-        switch (widget['type']) {
-          case 'HTML':
-            this.widgets[x]['text'] = widget['text'];
-            break;
-          case 'HEADING':
-            this.widgets[x]['size'] = widget['size'];
-            this.widgets[x]['text'] = widget['text'];
-            break;
-          case 'IMAGE':
-            this.widgets[x]['width'] = widget['width'];
-            this.widgets[x]['url'] = widget['url'];
-            break;
-          case 'YOUTUBE':
-            this.widgets[x]['width'] = widget['width'];
-            this.widgets[x]['url'] = widget['url'];
-            break;
+    // for (let x = 0; x < this.widgets.length; x++) {
+    //   if (this.widgets[x]._id === widgetId) {
+    //     switch (widget['type']) {
+    //       case 'HTML':
+    //         this.widgets[x]['text'] = widget['text'];
+    //         break;
+    //       case 'HEADING':
+    //         this.widgets[x]['size'] = widget['size'];
+    //         this.widgets[x]['text'] = widget['text'];
+    //         break;
+    //       case 'IMAGE':
+    //         this.widgets[x]['width'] = widget['width'];
+    //         this.widgets[x]['url'] = widget['url'];
+    //         break;
+    //       case 'YOUTUBE':
+    //         this.widgets[x]['width'] = widget['width'];
+    //         this.widgets[x]['url'] = widget['url'];
+    //         break;
+    //     }
+    //     this.widgets[x]._id = widgetId;
+    //     return this.widgets[x];
+    //   }
+    // }
+    const url = 'http://localhost:3100/api/widget/' + widgetId;
+    return this.http.put(url, widget)
+      .map(
+        (res: Response) => {
+          return res.json();
         }
-        this.widgets[x]._id = widgetId;
-        return this.widgets[x];
-      }
-    }
+      );
   }
 
   deleteWidget(widgetId) {
-    for (let x = 0; x < this.widgets.length; x++) {
-      if (this.widgets[x]._id === widgetId) {
-        delete this.widgets[x];
-      }
-    }
+    // for (let x = 0; x < this.widgets.length; x++) {
+    //   if (this.widgets[x]._id === widgetId) {
+    //     delete this.widgets[x];
+    //   }
+    // }
+    const url = 'http://localhost:3100/api/widget/' + widgetId;
+    return this.http.delete(url)
+      .map(
+        (res: Response) => {
+          return res.status;
+        }
+      );
   }
-
-
-
 }

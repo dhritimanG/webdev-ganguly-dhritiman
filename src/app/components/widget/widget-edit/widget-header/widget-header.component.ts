@@ -41,18 +41,31 @@ export class WidgetHeaderComponent implements OnInit {
     this.widget['widgetType'] = 'HEADER';
     this.widget['text'] = this.headerText;
     this.widget['size'] = this.headerSize;
-    this.widgetService.createWidget(this.pageId, this.widget);
+    this.widgetService.createWidget(this.pageId, this.widget)
+      .subscribe((widget) => {
+        if (widget) {
+          this.widget = widget;
+        }
+      });
   }
 
   updateWidget() {
     this.widget['widgetType'] = 'HEADER';
     this.widget['text'] = this.headerText;
     this.widget['size'] = this.headerSize;
-    this.widgetService.updateWidget(this.widgetId, this.widget);
+    this.widgetService.updateWidget(this.widgetId, this.widget)
+      .subscribe((widget) => {
+        if (widget) {
+          this.widget = widget;
+        }
+      });
   }
 
   deleteWidget() {
-    this.widgetService.deleteWidget(this.widgetId);
+    this.widgetService.deleteWidget(this.widgetId)
+      .subscribe((widget) => {
+
+      });
   }
 
 }
