@@ -21,23 +21,46 @@ export class WebsiteEditComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
+      // this.userId = params['userId'];
+      // this.websiteId = params['wid'];
+      // this.websites = this.websiteService.findWebsitesByUser(this.userId);
+      // this.website = this.websiteService.findWebsiteById(this.websiteId);
+      // this.siteName = this.website['name'];
+      // this.siteDesc = this.website['description'];
       this.userId = params['userId'];
       this.websiteId = params['wid'];
-      this.websites = this.websiteService.findWebsitesByUser(this.userId);
       this.website = this.websiteService.findWebsiteById(this.websiteId);
       this.siteName = this.website['name'];
       this.siteDesc = this.website['description'];
+      this.websiteService.findWebsitesByUser(this.userId)
+        .subscribe((websites) => {
+          this.websites = websites;
+        });
+      this.websiteService.findWebsiteById(this.websiteId)
+        .subscribe((website) => {
+          this.website = website;
+          this.siteName = this.website['name'];
+          this.siteDesc = this.website['description'];
+        });
     });
   }
 
   updateWebsite() {
     this.website['name'] = this.siteName;
     this.website['description'] = this.siteDesc;
-    this.website = this.websiteService.updateWebsite(this.websiteId, this.website);
+    this.websiteService.updateWebsite(this.websiteId, this.website)
+      .subscribe((website) => {
+        this.website = website;
+      });
   }
 
   deleteWebsite() {
-    this.websiteService.deleteWebsite(this.websiteId);
+    this.websiteService.deleteWebsite(this.userId, this.websiteId)
+      .subscribe(
+        (websites) => {
+          this.websites = websites;
+        }
+      );
   }
 
 }

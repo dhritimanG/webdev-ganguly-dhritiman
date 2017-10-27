@@ -34,25 +34,20 @@ export class RegisterComponent implements OnInit {
     this.user.email = this.registrationForm.value.email;
     this.confirmPassword = this.registrationForm.value.confirmPassword;
 
-    if (this.user.password !== this.confirmPassword) {
+    if (this.user['password'] !== this.confirmPassword) {
       this.errorFlag = true;
-      this.errorMsg = 'Passwords do not match!';
+      this.errorMsg = 'Passwords do not match';
     } else {
-      const user = this.userService.findUserByUsername(this.user.username);
-      if (user) {
-        this.errorFlag = true;
-        this.errorMsg = 'User already exists';
+      this.userService.createUser(this.user)
+        .subscribe((user) => {
+          this.user = user;
+        });
+      if (this.user) {
+        this.router.navigate([`/user/${this.user['_id']}`]);
       } else {
-        const newUser = this.userService.createUser(this.user);
-        if (newUser) {
-          this.router.navigate(['/user', user._id]);
-        } else {
-          this.errorFlag = true;
-          this.errorMsg = 'Could not register!';
-        }
+        this.errorFlag = true;
+        this.errorMsg = 'Could not create User!';
       }
     }
-
-
   }
 }

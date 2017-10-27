@@ -24,18 +24,30 @@ export class PageNewComponent implements OnInit {
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    // this.activatedRoute.params.subscribe(params => {
+    //   this.userId = params['userId'];
+    //   this.websiteId = params['wid'];
+    //   this.pageId = params['pid'];
+    //   this.pages = this.pageService.findPagesByWebsiteId(this.websiteId);
+    // });
     this.activatedRoute.params.subscribe(params => {
       this.userId = params['userId'];
       this.websiteId = params['wid'];
       this.pageId = params['pid'];
-      this.pages = this.pageService.findPagesByWebsiteId(this.websiteId);
+      this.pageService.findPagesByWebsiteId(this.websiteId)
+        .subscribe((pages) => {
+          this.pages = pages;
+        });
     });
   }
 
   createPage() {
     this.page['name'] = this.pageNewForm.value.pageName;
     this.page['description'] = this.pageNewForm.value.pageDesc;
-    this.page = this.pageService.createPage(this.websiteId, this.page);
+    this.pageService.createPage(this.websiteId, this.page)
+      .subscribe((page) => {
+        this.page = page;
+      });
   }
 
 }

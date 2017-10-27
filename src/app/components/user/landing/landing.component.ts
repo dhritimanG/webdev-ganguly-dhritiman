@@ -26,13 +26,16 @@ export class LandingComponent implements OnInit {
   landing() {
     this.username = this.loginForm.value.username;
     this.password = this.loginForm.value.password;
-    const user = this.userService.findUserByCredentials(this.username, this.password);
-     if (user) {
-      this.router.navigate(['/user', user._id]);
-    } else {
-      this.errorFlag = true;
-      this.errorMsg = 'Invalid username or password !';
-    }
+    this.userService.findUserByCredentials(this.username, this.password)
+      .subscribe((user: User) => {
+        if (user) {
+          this.router.navigate(['/user', user._id]);
+        } else {
+          this.errorFlag = true;
+          this.errorMsg = 'Invalid username or password !';
+        }
+
+      });
   }
 
   ngOnInit() {

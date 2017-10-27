@@ -18,8 +18,14 @@ export class WebsiteListComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
+      // this.userId = params['userId'];
+      // this.websites = this.websiteService.findWebsitesByUser(this.userId);
       this.userId = params['userId'];
-      this.websites = this.websiteService.findWebsitesByUser(this.userId);
+      this.websiteService
+        .findWebsitesByUser(this.userId)
+        .subscribe((websites) => {
+        this.websites = websites;
+        });
     });
   }
 

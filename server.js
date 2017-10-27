@@ -42,7 +42,7 @@ const server = http.createServer(app);
 var serverSide = require("./server/test-mongodb/app");
 serverSide(app);
 
-
+require("./assignment/app")(app);
 
 // For Build: Catch all other routes and return the index file -- BUILDING
 app.get('*', function (req, res) {
@@ -51,5 +51,3 @@ app.get('*', function (req, res) {
 
 
 server.listen( port , () => console.log('Running'));
-
-

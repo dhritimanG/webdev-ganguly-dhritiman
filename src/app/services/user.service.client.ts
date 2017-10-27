@@ -10,7 +10,7 @@ import {User} from '../models/user.model.client';
 
 export class UserService {
 
-  constructor() { }
+  constructor(private http: Http) { }
 
   users: User[] = [
     {_id: '123', username: 'alice', password: 'alice', email: 'alice.wonder@gmail.com', firstName: 'Alice', lastName: 'Wonder'},
@@ -33,9 +33,14 @@ export class UserService {
   }
 
   findUserById(userId: String) {
-    for (let x = 0; x < this.users.length; x++) {
-      if (this.users[x]._id === userId) {  return this.users[x]; }
-    }
+    const url = 'http://localhost:3100/api/user/' + userId;
+    return this.http.get(url)
+      .map((response: Response) => {
+        return response.json();
+      });
+    // for (let x = 0; x < this.users.length; x++) {
+    //   if (this.users[x]._id === userId) {  return this.users[x]; }
+    // }
   }
 
   findUserByUsername(username: String) {
@@ -45,10 +50,17 @@ export class UserService {
   }
 
   findUserByCredentials(username: String, password: String) {
-    return this.users.find(function (user) {
-      return user.username === username && user.password === password;
+    // return this.users.find(function (user) {
+    //   return user.username === username && user.password === password;
+    // });
+    const url = 'http://localhost:3100/api/user?username=' + username + '&password=' + password;
+    return this.http.get(url)
+      .map(
+        (response: Response) => {
+        return response.json();
     });
   }
+
   updateUser(userId, user) {
     for (let x = 0; x < this.users.length; x++) {
       if (this.users[x]['_id'] === userId) {
