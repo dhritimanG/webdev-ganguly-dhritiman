@@ -2,6 +2,7 @@ import {Website} from '../models/website.model.client';
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import 'rxjs/Rx';
+import {environment} from '../../environments/environment';
 
 // injecting service into module
 @Injectable()
@@ -9,6 +10,7 @@ import 'rxjs/Rx';
 export class WebsiteService {
 
   constructor(private http: Http) {}
+  baseUrl = environment.baseUrl;
 
   websites: Website[] = [
     {'_id': '123', 'name': 'Facebook', 'developerId': '456', 'description': 'Lorem'},
@@ -25,7 +27,7 @@ export class WebsiteService {
     // website.developerId = userId;
     // this.websites.push(website);
     // return website;
-    const url = 'http://localhost:3100/api/user/' + userId + '/website';
+    const url = this.baseUrl + '/api/user/' + userId + '/website';
     return this.http.post(url, website)
       .map((response: Response) => {
         return response.json();
@@ -36,7 +38,7 @@ export class WebsiteService {
     // return this.websites.filter(function (website) {
     //   return website.developerId === userId;
     // });
-    const url = 'http://localhost:3100/api/user/' + userId + '/website';
+    const url = this.baseUrl + '/api/user/' + userId + '/website';
     return this.http.get(url)
       .map((response: Response) => {
         return response.json();
@@ -47,7 +49,7 @@ export class WebsiteService {
     // return this.websites.find(function (website) {
     //   return website._id === websiteId;
     // });
-    const url = 'http://localhost:3100/api/website/' + websiteId;
+    const url = this.baseUrl + '/api/website/' + websiteId;
     return this.http.get(url)
       .map(
         (response: Response) => {
@@ -64,7 +66,7 @@ export class WebsiteService {
     //     return this.websites[x];
     //   }
     // }
-    const url = 'http://localhost:3100/api/website/' + websiteId;
+    const url = this.baseUrl + '/api/website/' + websiteId;
     return this.http.put(url, website)
       .map(
         (response: Response) => {
@@ -79,7 +81,7 @@ export class WebsiteService {
     //     delete this.websites[x];
     //   }
     // }
-    const url = 'http://localhost:3100/api/website/' + websiteId;
+    const url = this.baseUrl + '/api/website/' + websiteId;
     return this.http.delete(url)
       .map((response: Response) => {
         return response.json();

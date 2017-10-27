@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Page} from '../models/page.model.client';
 import {Http, Response} from '@angular/http';
 import 'rxjs/Rx';
-
+import {environment} from '../../environments/environment';
 
 
 @Injectable()
@@ -12,6 +12,8 @@ export class PageService {
   constructor(private http: Http) {
 
   }
+  baseUrl = environment.baseUrl;
+
 
   pages: Page[] = [
     {'_id': '321', 'name': 'Post 1', 'websiteId': '456', 'description': 'Lorem'},
@@ -24,7 +26,7 @@ export class PageService {
     // page.websiteId = webiteId;
     // this.pages.push(page);
     // return page;
-    const url = 'http://localhost:3100/api/website/' + websiteId + '/page';
+    const url = this.baseUrl + '/api/website/' + websiteId + '/page';
     return this.http.post(url, page)
       .map(
         (res: Response) => {
@@ -37,7 +39,7 @@ export class PageService {
     // return this.pages.filter(function (page) {
     //   return page.websiteId === websiteId;
     // });
-    const url = 'http://localhost:3100/api/website/' + websiteId + '/page';
+    const url = this.baseUrl + '/api/website/' + websiteId + '/page';
     return this.http.get(url)
       .map(
         (res: Response) => {
@@ -50,7 +52,7 @@ export class PageService {
     // return this.pages.find(function (page) {
     //   return page._id === pageId;
     // });
-    const url = 'http://localhost:3100/api/page/' + pageId;
+    const url = this.baseUrl + '/api/page/' + pageId;
     return this.http.get(url)
       .map(
         (res: Response) => {
@@ -67,7 +69,7 @@ export class PageService {
     //     return this.pages[x];
     //   }
     // }
-    const url = 'http://localhost:3100/api/page/' + pageId;
+    const url = this.baseUrl + '/api/page/' + pageId;
     return this.http.put(url, page)
       .map(
         (res: Response) => {
@@ -82,7 +84,7 @@ export class PageService {
     //     delete this.pages[x];
     //   }
     // }
-    const url = 'http://localhost:3100/api/page/' + pageId;
+    const url = this.baseUrl + '/api/page/' + pageId;
     return this.http.delete(url)
       .map(
         (res: Response) => {

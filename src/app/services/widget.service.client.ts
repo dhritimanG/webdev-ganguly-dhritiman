@@ -9,6 +9,8 @@ import {environment} from '../../environments/environment';
 export class WidgetService {
 
   constructor(private http: Http) {}
+  baseUrl = environment.baseUrl;
+
 
   widgets = [
     {'_id': '123', 'widgetType': 'HEADING', 'pageId': '321', 'size': 2, 'text': 'GIZMODO'},
@@ -31,7 +33,7 @@ export class WidgetService {
     // widget.pageId = pageId;
     // this.widgets.push(widget);
     // return widget;
-    const url = 'http://localhost:3100/api/page/' + pageId + '/widget';
+    const url = this.baseUrl +  '/api/page/' + pageId + '/widget';
     return this.http.post(url, widget)
       .map(
         (res: Response) => {
@@ -41,7 +43,7 @@ export class WidgetService {
   }
 
   findWidgetsByPageId(pageId) {
-    const url = 'http://localhost:3100/api/page/' + pageId + '/widget';
+    const url = this.baseUrl +  '/api/page/' + pageId + '/widget';
     return this.http.get(url)
       .map(
         (res: Response) => {
@@ -51,7 +53,7 @@ export class WidgetService {
   }
 
   findWidgetById(widgetId) {
-    const url = 'http://localhost:3100/api/widget/' + widgetId;
+    const url = this.baseUrl + '/api/widget/' + widgetId;
     return this.http.get(url)
       .map(
         (res: Response) => {
@@ -84,7 +86,7 @@ export class WidgetService {
     //     return this.widgets[x];
     //   }
     // }
-    const url = 'http://localhost:3100/api/widget/' + widgetId;
+    const url = this.baseUrl +  '/api/widget/' + widgetId;
     return this.http.put(url, widget)
       .map(
         (res: Response) => {
@@ -99,7 +101,7 @@ export class WidgetService {
     //     delete this.widgets[x];
     //   }
     // }
-    const url = 'http://localhost:3100/api/widget/' + widgetId;
+    const url = this.baseUrl +  '/api/widget/' + widgetId;
     return this.http.delete(url)
       .map(
         (res: Response) => {

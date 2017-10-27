@@ -11,6 +11,7 @@ import {User} from '../models/user.model.client';
 export class UserService {
 
   constructor(private http: Http) { }
+  baseUrl = environment.baseUrl;
 
   users: User[] = [
     {_id: '123', username: 'alice', password: 'alice', email: 'alice.wonder@gmail.com', firstName: 'Alice', lastName: 'Wonder'},
@@ -33,7 +34,7 @@ export class UserService {
   }
 
   findUserById(userId: String) {
-    const url = 'http://localhost:3100/api/user/' + userId;
+    const url = this.baseUrl + '/api/user/' + userId;
     return this.http.get(url)
       .map((response: Response) => {
         return response.json();
@@ -53,7 +54,7 @@ export class UserService {
     // return this.users.find(function (user) {
     //   return user.username === username && user.password === password;
     // });
-    const url = 'http://localhost:3100/api/user?username=' + username + '&password=' + password;
+    const url = this.baseUrl + 'api/user?username=' + username + '&password=' + password;
     return this.http.get(url)
       .map(
         (response: Response) => {
