@@ -23,11 +23,11 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = new User('', '', '', '', '', '');
+    this.user = new User('', '', '', '', '');
   }
 
   createUser() {
-    this.user.username = this.registrationForm.value.username;
+    this.user.username = this.registrationForm.value.userName;
     this.user.password = this.registrationForm.value.password;
     this.user.firstName = this.registrationForm.value.firstName;
     this.user.lastName = this.registrationForm.value.lastName;
@@ -41,13 +41,16 @@ export class RegisterComponent implements OnInit {
       this.userService.createUser(this.user)
         .subscribe((user) => {
           this.user = user;
+          if (this.user) {
+            console.log('hi');
+            console.log(user);
+            // this.router.navigate([`/user/${this.user['_id']}`]);
+          } else {
+            console.log('yes');
+            this.errorFlag = true;
+            this.errorMsg = 'Could not create User!';
+          }
         });
-      if (this.user) {
-        this.router.navigate([`/user/${this.user['_id']}`]);
-      } else {
-        this.errorFlag = true;
-        this.errorMsg = 'Could not create User!';
-      }
     }
   }
 }

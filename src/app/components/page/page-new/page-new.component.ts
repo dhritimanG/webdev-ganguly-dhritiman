@@ -1,7 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {PageService} from '../../../services/page.service.client';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../../../services/user.service.client';
 import {NgForm} from '@angular/forms';
+import {PageService} from '../../../services/page.service.client';
+
 
 @Component({
   selector: 'app-page-new',
@@ -9,45 +11,53 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./page-new.component.css']
 })
 export class PageNewComponent implements OnInit {
-
-  @ViewChild('f') pageNewForm: NgForm;
-
-  userId: String;
-  websiteId: String;
-  page = {};
-  pageId: String;
+  @ViewChild('f') pageForm: NgForm;
+  userId: string;
   pages = [{}];
-  pageName: String;
-  pageDesc: String;
+  page: any;
+  name: string;
+  description: string;
+  wid: string;
+  user: any;
 
-  constructor(private pageService: PageService,
-              private activatedRoute: ActivatedRoute) { }
+
+  constructor(private activatedRoute: ActivatedRoute,
+              private userService: UserService,
+              private router: Router,
+              private pageService: PageService) { }
 
   ngOnInit() {
-    // this.activatedRoute.params.subscribe(params => {
-    //   this.userId = params['userId'];
-    //   this.websiteId = params['wid'];
-    //   this.pageId = params['pid'];
-    //   this.pages = this.pageService.findPagesByWebsiteId(this.websiteId);
-    // });
-    this.activatedRoute.params.subscribe(params => {
-      this.userId = params['userId'];
-      this.websiteId = params['wid'];
-      this.pageId = params['pid'];
-      this.pageService.findPagesByWebsiteId(this.websiteId)
-        .subscribe((pages) => {
+    this.activatedRoute.params
+      .subscribe(
+        (params: any) => {
+          this.userId = params['userId'];
+          this.wid = params['wid'];
+        }
+      );
+    this.pageService.findPageByWebsiteId(this.wid)
+      .subscribe(
+        (pages: any) => {
           this.pages = pages;
-        });
-    });
+        }
+      );
+
   }
 
-  createPage() {
-    this.page['name'] = this.pageNewForm.value.pageName;
-    this.page['description'] = this.pageNewForm.value.pageDesc;
-    this.pageService.createPage(this.websiteId, this.page)
-      .subscribe((page) => {
-        this.page = page;
-      });
+  create() {
+    console.log('new page');
+    this.name = this.pageForm.value.pageName;
+    this.description = this.pageForm.value.pageDesc;
+    const page = {
+      name: this.name,
+      description: this.description
+    };
+    this.page = this.pageService.createPage(this.wid, page)
+      .subscribe(
+        (new_page: any) => {
+          console.log(new_page);
+          this.router.navigate(['user/', this.userId, 'website', this.wid, 'page']);
+        }
+      );
   }
 
 }

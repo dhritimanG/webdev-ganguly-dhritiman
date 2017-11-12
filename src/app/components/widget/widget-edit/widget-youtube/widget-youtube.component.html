@@ -12,7 +12,7 @@
   </div>
 
   <div class="navbar-text pull-right">
-    <a (click)="createWidget()"
+    <a (click)="create()"
        [routerLink]="['/user', userId, 'website', websiteId, 'page', pageId, 'widget']">
       <span class="glyphicon glyphicon-ok pull-left"></span>
     </a>
@@ -35,7 +35,7 @@
       <input type="url" class="form-control" placeholder="xyz.com">
     </div>
     <a href = "#" class="btn btn-primary btn-block">Upload YouTube Video</a>
-    <a (click)="deleteWidget()"
+    <a (click)="delete()"
        class="btn btn-danger btn-block "
        [routerLink]="['/user', userId, 'website', websiteId, 'page', pageId, 'widget']">Delete</a>
   </form>

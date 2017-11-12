@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-widget-image',
@@ -9,74 +10,76 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class WidgetImageComponent implements OnInit {
 
-  imgName: String;
-  imgText: String;
-  imgUrl: String;
-  imgWidth: String;
-  uploadImage: String;
-  userId: String;
-  websiteId: String;
-  pageId: String;
-  widgetId: String;
-  widgetEdit: Boolean;
+  url: string;
+  text: string;
+  width: string;
+  name: string;
+  userId: string;
+  wid: string;
+  pid: string;
+  wgid: string;
   widget = {};
+  widgets = [{}];
+  baseUrl = environment.baseUrl;
+
 
   constructor(private widgetService: WidgetService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoutes: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.userId = params['uid'];
-      this.websiteId = params['wid'];
-      this.pageId = params['pid'];
-      this.widgetId = params['wgid'];
-      if (this.widgetId) {
-        this.widget = this.widgetService.findWidgetById(this.widgetId);
-        this.widgetEdit = true;
-        this.imgName = this.widget['name'];
-        this.imgText = this.widget['text'];
-        this.imgUrl = this.widget['url'];
-        this.imgWidth = this.widget['width'];
-        this.uploadImage = this.widget['upload'];
-      }
+    this.activatedRoutes.params.subscribe(params => {
+      this.userId = params['userId'];
+      this.wid = params['wid'];
+      this.pid = params['pid'];
+      this.wgid = params['wgid'];
+      this.widget = this.widgetService.findWidgetById(this.wgid)
+        .subscribe(
+          (widget: any) => {
+            this.widget = widget;
+            this.width = widget['width'];
+            this.url = widget['url'];
+          }
+        );
     });
   }
 
-  createWidget() {
-    this.widget['widgetType'] = 'IMAGE';
-    this.widget['text'] = this.imgText;
-    this.widget['url'] = this.imgUrl;
-    this.widget['width'] = this.imgWidth;
-    this.widget['upload'] = this.uploadImage;
-    this.widget['name'] = this.imgName;
-    this.widgetService.createWidget(this.pageId, this.widget)
-      .subscribe((widget) => {
-        if (widget) {
-          this.widget = widget;
+  create() {
+    this.widget['type'] = 'IMAGE';
+    this.widget['text'] = this.text;
+    this.widget['url'] = this.url;
+    this.widget['width'] = this.width;
+    this.widget['name'] = this.name;
+    this.widgetService.createWidget(this.pid, this.widget)
+      .subscribe((data) => {
+        if (data) {
+          this.widget = data;
+          this.router.navigate(['/user', this.userId, 'website',
+            this.wid, 'page', this.pid, 'widget']);
         }
       });
   }
 
-  updateWidget() {
+  update() {
     this.widget['widgetType'] = 'IMAGE';
-    this.widget['text'] = this.imgText;
-    this.widget['url'] = this.imgUrl;
-    this.widget['width'] = this.imgWidth;
-    this.widget['upload'] = this.uploadImage;
-    this.widget['name'] = this.imgName;
-    this.widgetService.updateWidget(this.widgetId, this.widget)
-      .subscribe((widget) => {
-        if (widget) {
-          this.widget = widget;
+    this.widget['width'] = this.width;
+    this.widget['url'] = this.url;
+    this.widgetService.updateWidget(this.wgid, this.widget)
+      .subscribe(
+        (widgets: any) => {
+          this.router.navigate(['user/' + this.userId, 'website', this.wid, 'page', this.pid, 'widget']);
         }
-      });
+      );
   }
 
-  deleteWidget() {
-    this.widgetService.deleteWidget(this.widgetId)
-      .subscribe((widget) => {
-      });
+  delete() {
+    this.widgetService.deleteWidget(this.wgid)
+      .subscribe(
+        (widgets: any) => {
+          this.router.navigate(['user/' + this.userId, 'website', this.wid, 'page', this.pid, 'widget']);
+        }
+      );
   }
 
 }

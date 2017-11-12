@@ -30,7 +30,9 @@ import { UserService } from './services/user.service.client';
 import {WebsiteService} from './services/website.service.client';
 import {PageService} from './services/page.service.client';
 import {WidgetService} from './services/widget.service.client';
-
+import { WidgetTextComponent } from './components/widget/widget-edit/widget-text/widget-text.component';
+import { QuillEditorModule } from 'ngx-quill-editor';
+import { WidgetHtmlComponent } from './components/widget/widget-edit/widget-html/widget-html.component';
 
 
 @NgModule({
@@ -55,12 +57,15 @@ import {WidgetService} from './services/widget.service.client';
     WidgetHeaderComponent,
     WidgetImageComponent,
     WidgetYoutubeComponent,
-    LandingComponent
+    LandingComponent,
+    WidgetTextComponent,
+    WidgetHtmlComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
+    QuillEditorModule,
     Routing
   ],
   // Client Side services here

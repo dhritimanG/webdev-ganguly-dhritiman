@@ -4,7 +4,7 @@
     <div class="col-sm-5 hidden-xs">
 
       <div class="dg-nav-items navbar-text pull-left" style="margin-left: 0px">
-        <a [routerLink]="['/user', userId, 'website', websiteId, 'page']">
+        <a [routerLink]="['/user', userId, 'website', wid, 'page']">
           <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
       </div>
@@ -17,7 +17,7 @@
       </div>
 
       <div class="dg-nav-items navbar-text pull-right" style="margin-right: 0px">
-        <a [routerLink]="['/user', userId, 'website', websiteId, 'page', 'new']">
+        <a [routerLink]="['/user', userId, 'website', wid, 'page', 'new']">
           <span class="glyphicon glyphicon-plus"></span>
         </a>
       </div>
@@ -34,8 +34,7 @@
       </div>
 
       <div class="dg-nav-items navbar-text pull-right" style="margin-right: 0px">
-        <a (click)="createPage()"
-           [routerLink]="['/user', userId, 'website', websiteId, 'page']">
+        <a (click)="create()">
           <span class="glyphicon glyphicon-ok"></span>
         </a>
       </div>
@@ -51,10 +50,10 @@
   <ul class="list-group">
     <div *ngFor="let page of pages">
       <li class="list-group-item">
-        <a [routerLink]="['/user', userId, 'website', websiteId, 'page', page._id, 'widget']">
+        <a [routerLink]="['/user', userId, 'website', wid, 'page', page._id, 'widget']">
           {{page.name}}
         </a>
-        <a [routerLink]="['/user', userId, 'website', websiteId, 'page', page._id]"
+        <a [routerLink]="['/user', userId, 'website', wid, 'page', page._id]"
            class="pull-right">
           <span class="glyphicon glyphicon-cog"></span>
         </a>
@@ -65,29 +64,31 @@
 </div>
 
 <div class="dg-right-pane col-sm-7">
+  <form #f="ngForm">
+    <div class="dg-right-pane-items">
+      <label>Name</label>
+      <input placeholder="Page Name"
+             name="pageName"
+             id="pageName"
+             type="text"
+             class="form-control"
+             ngModel
+             required
+             #username="ngModel"/>
+    </div>
 
-  <div class="dg-right-pane-items">
-    <label>Name</label>
-    <input placeholder="Page Name"
-           name="pageName"
-           type="text"
-           class="form-control"
-           ngModel
-           required
-           #username="ngModel"/>
-  </div>
-
-  <div class="dg-right-pane-items">
-    <label>Description</label>
-    <textarea placeholder="Page Description"
-              name="pageDesc"
-              type="text"
-              class="form-control"
-              ngModel
-              required
-              #username="ngModel"></textarea>
-  </div>
-
+    <div class="dg-right-pane-items">
+      <label>Description</label>
+      <textarea placeholder="Page Description"
+                name="pageDesc"
+                type="text"
+                id="pageDesc"
+                class="form-control"
+                ngModel
+                required
+                #username="ngModel"></textarea>
+    </div>
+  </form>
 </div>
 
 

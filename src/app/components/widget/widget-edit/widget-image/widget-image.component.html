@@ -1,7 +1,7 @@
 <nav id = "page-nav" class="navbar navbar-default navbar-fixed-top">
 
   <div class="navbar-text pull-left" style="margin-left: 0px;">
-    <a [routerLink]="['/user', userId, 'website', websiteId, 'page', pageId, 'widget']">
+    <a [routerLink]="['/user', userId, 'website', wid, 'page', pid, 'widget']">
       <span class="glyphicon glyphicon-chevron-left pull-left"></span>    </a>
   </div>
 
@@ -12,8 +12,7 @@
   </div>
 
   <div class="navbar-text pull-right">
-    <a (click)="createWidget()"
-       [routerLink]="['/user', userId, 'website', websiteId, 'page', pageId, 'widget']">
+    <a (click)="create()">
       <span class="glyphicon glyphicon-ok pull-left"></span>
     </a>
   </div>
@@ -43,9 +42,9 @@
       <input type="file" class="form-control">
     </div>
     <a href = "#" class="btn btn-primary btn-block">Upload Image</a>
-    <a (click)="deleteWidget()"
+    <a (click)="delete()"
        class="btn btn-danger btn-block "
-       [routerLink]="['/user', userId, 'website', websiteId, 'page', pageId, 'widget']">Delete</a>
+       [routerLink]="['/user', userId, 'website', wid, 'page', pid, 'widget']">Delete</a>
   </form>
 
 

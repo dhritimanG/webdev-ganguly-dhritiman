@@ -8,6 +8,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Point static path to dist -- For building -- REMOVE
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // CORS
@@ -25,8 +27,8 @@ app.set('port', port);
 // Create HTTP server
 const server = http.createServer(app);
 
-// var serverSide = require("./server/test-mongodb/app");
-// serverSide(app);
+var serverSide = require("./server/test-mongodb/app");
+serverSide(app);
 
 require("./assignment/app.js")(app);
 
@@ -37,3 +39,4 @@ app.get('*', function (req, res) {
 
 
 server.listen( port , () => console.log('Running'));
+

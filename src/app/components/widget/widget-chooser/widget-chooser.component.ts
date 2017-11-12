@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {WidgetService} from '../../../services/widget.service.client';
+import {UserService} from '../../../services/user.service.client';
 
 @Component({
   selector: 'app-widget-chooser',
@@ -7,18 +9,44 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./widget-chooser.component.css']
 })
 export class WidgetChooserComponent implements OnInit {
+  pid: string;
+  userId: string;
+  widget: any;
+  wid: string;
 
-  userId: String;
-  websiteId: String;
-  pageId: String;
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private userService: UserService,
+              private router: Router,
+              private widgetService: WidgetService) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.userId = params['userId'];
-      this.websiteId = params['wid'];
-      this.pageId = params['pid'];
-    });
+    this.activatedRoute.params
+      .subscribe(
+        (params: any) => {
+          this.userId = params['userId'];
+          this.pid = params['pid'];
+          this.wid = params['wid'];
+        }
+      );
   }
 
+  create(type) {
+    const widget = {
+      widgetType: type
+    };
+    this.widget = this.widgetService.createWidget(this.pid, widget)
+      .subscribe(
+        (new_widget: any) => {
+          this.router.navigate([
+            'user/',
+            this.userId,
+            'website',
+            this.wid,
+            'page',
+            this.pid,
+            'widget',
+            new_widget._id]);
+        }
+      );
+  }
 }

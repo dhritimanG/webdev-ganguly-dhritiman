@@ -1,39 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import {WidgetService} from '../../../services/widget.service.client';
 import {ActivatedRoute} from '@angular/router';
-import {DomSanitizer} from '@angular/platform-browser';
+import {UserService} from '../../../services/user.service.client';
+import {WidgetService} from '../../../services/widget.service.client';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-widget-list',
   templateUrl: './widget-list.component.html',
   styleUrls: ['./widget-list.component.css']
 })
-
 export class WidgetListComponent implements OnInit {
-
-  userId: String;
-  websiteId: String;
-  pageId: String;
+  userId: string;
   widgets = [{}];
+  wid: string;
+  pid: string;
+  user: any;
 
-  constructor(private widgetService: WidgetService,
-              private activatedRoute: ActivatedRoute,
-              private domSanitizer: DomSanitizer) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private userService: UserService,
+              private widgetService: WidgetService,
+              public sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.userId = params['uid'];
-      this.websiteId = params['wid'];
-      this.pageId = params['pid'];
-      this.widgetService.findWidgetsByPageId(this.pageId)
-        .subscribe((widgets) => {
+    this.activatedRoute.params
+      .subscribe(
+        (params: any) => {
+          this.userId = params['userId'];
+          this.wid = params['wid'];
+          this.pid = params['pid'];
+        }
+      );
+    this.widgetService.findWidgetsByPageId(this.pid)
+      .subscribe(
+        (widgets: any) => {
           this.widgets = widgets;
-        });
-    });
-  }
-
-  safeUrl(url: string) {
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+        }
+      );
   }
 
 }

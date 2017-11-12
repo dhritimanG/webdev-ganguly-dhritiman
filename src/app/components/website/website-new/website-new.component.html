@@ -34,7 +34,7 @@
       </div>
 
       <div class="dg-nav-items navbar-text pull-right" style="margin-right: 0px">
-        <a (click)="createWebsite()"
+        <a (click)="create()"
            [routerLink]="['/user', userId, 'website']">
           <span class="glyphicon glyphicon-ok"></span>
         </a>
@@ -67,7 +67,8 @@
   <div class="dg-right-pane-items">
     <label>Name</label>
     <input placeholder="Website Name"
-           name="siteName"
+           name="name"
+           id="name"
            type="text"
            class="form-control"
            ngModel
@@ -78,7 +79,8 @@
   <div class="dg-right-pane-items">
     <label>Description</label>
     <textarea placeholder="Website Description"
-              name="siteDesc"
+              name="description"
+              id="description"
               type="text"
               class="form-control"
               ngModel

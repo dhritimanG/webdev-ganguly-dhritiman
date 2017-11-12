@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../../../services/user.service.client';
 import {WebsiteService} from '../../../services/website.service.client';
-import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-website-edit',
@@ -8,57 +10,56 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./website-edit.component.css']
 })
 export class WebsiteEditComponent implements OnInit {
-
-  userId: String;
+  @ViewChild('f') websiteEditForm: NgForm;
   website = {};
+  userId: string;
+  user: any;
+  wid: string;
   websites = [{}];
-  websiteId: String;
-  siteName: String;
-  siteDesc: String;
 
-  constructor(private websiteService: WebsiteService,
-              private activatedRoute: ActivatedRoute) { }
+  constructor(private webService: WebsiteService,
+              private activatedRoute: ActivatedRoute,
+              private userService: UserService,
+              private router: Router) {
+  }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      // this.userId = params['userId'];
-      // this.websiteId = params['wid'];
-      // this.websites = this.websiteService.findWebsitesByUser(this.userId);
-      // this.website = this.websiteService.findWebsiteById(this.websiteId);
-      // this.siteName = this.website['name'];
-      // this.siteDesc = this.website['description'];
-      this.userId = params['userId'];
-      this.websiteId = params['wid'];
-      this.website = this.websiteService.findWebsiteById(this.websiteId);
-      this.siteName = this.website['name'];
-      this.siteDesc = this.website['description'];
-      this.websiteService.findWebsitesByUser(this.userId)
-        .subscribe((websites) => {
-          this.websites = websites;
-        });
-      this.websiteService.findWebsiteById(this.websiteId)
-        .subscribe((website) => {
-          this.website = website;
-          this.siteName = this.website['name'];
-          this.siteDesc = this.website['description'];
-        });
-    });
-  }
-
-  updateWebsite() {
-    this.website['name'] = this.siteName;
-    this.website['description'] = this.siteDesc;
-    this.websiteService.updateWebsite(this.websiteId, this.website)
-      .subscribe((website) => {
-        this.website = website;
-      });
-  }
-
-  deleteWebsite() {
-    this.websiteService.deleteWebsite(this.userId, this.websiteId)
+    this.activatedRoute.params
       .subscribe(
-        (websites) => {
+        (params: any) => {
+          this.userId = params['userId'];
+          this.wid = params['wid'];
+        }
+      );
+    this.webService.findWebsiteById(this.wid)
+      .subscribe(
+        (website: any) => {
+          this.website = website;
+        }
+      );
+
+    this.webService.findWebsitesByUser(this.userId)
+      .subscribe(
+        (websites: any) => {
           this.websites = websites;
+        }
+      );
+  }
+
+  update() {
+    this.webService.updateWebsite(this.wid, this.website)
+      .subscribe(
+        (website: any) => {
+          this.router.navigate(['user/' + this.userId, 'website']);
+        }
+      );
+  }
+
+  delete() {
+    this.webService.deleteWebsite(this.wid)
+      .subscribe(
+        (website: any) => {
+          this.router.navigate(['user/' + this.userId, 'website']);
         }
       );
   }

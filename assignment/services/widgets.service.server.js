@@ -1,121 +1,93 @@
-module.exports = function(app) {
+module.exports = function (app) {
   var multer = require('multer');
-  var upload = multer({dest: __dirname + '/../../dist/assets/uploads'});
+  var upload = multer({ dest: __dirname+'/../../src/assets/uploads' });
+  var WidgetModel = require('../model/widget/widget.model.server');
 
-  app.post("/api/upload", upload.single('upFile'), uploadImage);
   app.post('/api/page/:pageId/widget', createWidget);
-  app.get('/api/page/:pageId/widget', findWidgetsInPage);
+  app.get('/api/page/:pageId/widget', findAllWidgetsForPage);
   app.get('/api/widget/:widgetId', findWidgetById);
-  app.put('/api/widget/:widgetId', updateWidget);
   app.delete('/api/widget/:widgetId', deleteWidget);
+  app.put('/api/widget/:widgetId', updateWidget);
+  app.put('/api/page/:pageId/widget', sortWidgets);
+  app.post ("/api/upload", upload.single('myFile'), uploadImage);
 
-  widgets = [
-    { "_id": "123", "widgetType": "HEADING", "pageId": "321", "size": 2, "text": "GIZMODO"},
-    { "_id": "234", "widgetType": "HEADING", "pageId": "321", "size": 4, "text": "Lorem ipsum"},
-    { "_id": "345", "widgetType": "IMAGE", "pageId": "321", "width": "100%",
-      "url": "http://lorempixel.com/400/200/"},
-    { "_id": "456", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>"},
-    { "_id": "567", "widgetType": "HEADING", "pageId": "321", "size": 4, "text": "Lorem ipsum"},
-    { "_id": "678", "widgetType": "YOUTUBE", "pageId": "321", "width": "100%",
-      "url": "https://youtu.be/AM2Ivdi9c4E" },
-    { "_id": "789", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>"}
-  ];
+
+  function findAllWidgetsForPage(req, res) {
+    var pageId = req.params['pageId'];
+    WidgetModel.findAllWidgetsForPage(pageId)
+      .then(function (widgets) {
+        res.json(widgets);
+      })
+  }
 
   function createWidget(req, res) {
-    var pageId = req.param('pageId');
     var widget = req.body;
-    widget['_id'] = Math.floor(Math.random() * 1000) + '';
-    widget['pageId'] = pageId;
-    widget['index'] = getHighestIndex(pageId) + 1;
-    widgets.push(widget);
-    res.json(widget);
-  }
-
-  function findWidgetsInPage(req, res) {
-    var pageId = req.param('pageId');
-    var widgets = getSortedWidgets(pageId);
-    res.json(widgets);
-  }
-
-  function findWidgetById(req, res) {
-    var widgetId = req.param('widgetId');
-    var widget = widgets.find(function (widget) {
-      return widget['_id'] === widgetId;
-    });
-    res.json(widget);
-    return;
-  }
-
-  function updateWidget(req, res) {
-    var widgetId = req.param('widgetId');
-    var widget = req.body;
-    for (var x = 0; x < widgets.length; x++) {
-      if (widgets[x]['_id'] === widgetId) {
-        switch (widget['type']) {
-          case 'HEADING':
-            widgets[x]['size'] = widget['size'];
-            widgets[x]['text'] = widget['text'];
-            break;
-          case 'IMAGE':
-            widgets[x]['width'] = widget['width'];
-            widgets[x]['url'] = widget['url'];
-            break;
-          case 'YOUTUBE':
-            widgets[x]['width'] = widget['width'];
-            widgets[x]['url'] = widget['url'];
-            break;
-          case 'HTML':
-            widgets[x]['text'] = widget['text'];
-            break;
-        }
-        widgets[x]['_id'] = widgetId;
-        res.json(widgets[x]);
-        return;
-      }
-    }
+    WidgetModel.createWidget(widget.pageId, widget)
+      .then(function (widget) {
+        res.json(widget);
+      })
   }
 
   function deleteWidget(req, res) {
-    var widgetId = req.param('widgetId');
-    for (var x = 0; x < widgets.length; x++) {
-      if (widgets[x]['_id'] === widgetId) {
-        delete widgets[x];
+    var widgetId = req.params['widgetId'];
+    WidgetModel.deleteWidget(widgetId)
+      .then(function (status) {
+        res.json(status);
+      })
+  }
+
+  function updateWidget(req, res) {
+    var widgetId = req.params['widgetId'];
+    var widget = req.body;
+    WidgetModel.updateWidget(widgetId, widget)
+      .then(function (status) {
+        return WidgetModel.findAllWidgetsForPage(widgetId.pageId);
+      })
+      .then(function (widgets){
+        res.json(widgets);
         return;
-      }
-    }
-    return;
+      },function (err) {
+        res.sendStatus(404).send(err);
+        return;
+      });
+  }
+
+  function findWidgetById(req, res) {
+    var widgetId = req.params['widgetId'];
+    WidgetModel.findWidgetById(widgetId)
+      .then(function (widget) {
+        res.json(widget);
+      })
+  }
+
+  function sortWidgets(req, res) {
+    var initial = req.query['initial'];
+    var final = req.query['final'];
   }
 
   function uploadImage(req, res) {
-    var widgetId = req.body.widgetId;
-    var width = req.body.width;
-    var upFile = req.file;
+
+    var widgetId      = req.body.widgetId;
+    var width         = req.body.width;
+    var myFile        = req.file;
 
     var userId = req.body.userId;
     var websiteId = req.body.websiteId;
     var pageId = req.body.pageId;
 
-    var originalname = upFile.originalname;
-    var filename = upFile.filename;
-    var path = upFile.path;
-    var destination = upFile.destination;
-    var size = upFile.size;
-    var mimetype = upFile.mimetype;
+    var originalname  = myFile.originalname; // file name on user's computer
+    var filename      = myFile.filename;     // new file name in upload folder
+    var path          = myFile.path;         // full path of uploaded file
+    var destination   = myFile.destination;  // folder where file is saved to
+    var size          = myFile.size;
+    var mimetype      = myFile.mimetype;
 
-    widget = {
-      '_id': widgetId,
-      'widgetType': 'IMAGE',
-      'pageId': pageId,
-      'width': width
-    };
+    widget = getWidgetById(widgetId);
+    widget.url = '/assets/uploads/'+filename;
+    widget.width = width;
 
-    widget.url = '/assets/uploads/' + filename;
-    this.widgets.push(widget);
+    var callbackUrl   =  "/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget" ;
 
-    var widgetUrl = "/user/" + userId + "/website/" + websiteId + '/page/' + pageId + '/widget';
-
-    res.redirect(widgetUrl);
+    res.redirect(callbackUrl);
   }
-
-
 }

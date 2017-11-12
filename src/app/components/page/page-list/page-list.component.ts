@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PageService } from '../../../services/page.service.client';
 import {ActivatedRoute} from '@angular/router';
-
+import {UserService} from '../../../services/user.service.client';
+import {PageService} from '../../../services/page.service.client';
 
 @Component({
   selector: 'app-page-list',
@@ -9,25 +9,35 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./page-list.component.css']
 })
 export class PageListComponent implements OnInit {
-
-  userId: String;
-  websiteId: String;
+  userId: string;
   pages = [{}];
+  username: string;
+  wid: string;
 
-  constructor(private pageService: PageService,
-              private activatedRoute: ActivatedRoute) {
-  }
+  constructor(private activatedRoute: ActivatedRoute,
+              private userService: UserService,
+              private pageService: PageService) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.userId = params['userId'];
-      this.websiteId = params['wid'];
-      // this.pages = this.pageService.findPagesByWebsiteId(this.websiteId);
-      this.pageService.findPagesByWebsiteId(this.websiteId)
-        .subscribe((pages) => {
+    this.activatedRoute.params
+      .subscribe(
+        (params: any) => {
+          this.userId = params['userId'];
+          this.wid = params['wid'];
+        }
+      );
+    this.userService.findUserById(this.userId)
+      .subscribe(
+        (user: any) => {
+          this.username = user.username;
+        }
+      );
+    this.pageService.findPageByWebsiteId(this.wid)
+      .subscribe(
+        (pages: any) => {
           this.pages = pages;
-        });
-    });
+        }
+      );
   }
 
 }

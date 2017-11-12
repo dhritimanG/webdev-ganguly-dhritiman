@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../../../services/user.service.client';
 import {PageService} from '../../../services/page.service.client';
-import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-page-edit',
@@ -8,61 +10,59 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./page-edit.component.css']
 })
 export class PageEditComponent implements OnInit {
-
-  userId: String;
-  websiteId: String;
+  @ViewChild('f') pageEditForm: NgForm;
+  userId: string;
   page = {};
-  pageId: String;
   pages = [{}];
-  pageName: String;
-  pageDesc: String;
+  name: string;
+  description: string;
+  pid: string;
+  wid: string;
 
   constructor(private pageService: PageService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private userService: UserService,
+              private router: Router) { }
 
   ngOnInit() {
-      this.activatedRoute.params.subscribe(params => {
-      this.userId = params['userId'];
-      this.websiteId = params['wid'];
-      this.pageId = params['pid'];
-      this.page = this.pageService.findPageById(this.pageId);
-      this.pageName = this.page['name'];
-      this.pageDesc = this.page['description'];
-      this.pageService.findPagesByWebsiteId(this.websiteId)
-        .subscribe((pages) => {
-        if (pages) {
+    this.activatedRoute.params
+      .subscribe(
+        (params: any) => {
+          this.userId = params['userId'];
+          this.wid = params['wid'];
+          this.pid = params['pid'];
+        }
+      );
+    this.pageService.findPageById(this.pid)
+      .subscribe(
+        (page: any) => {
+          this.page = page;
+        }
+      );
+    this.pageService.findPageByWebsiteId(this.wid)
+      .subscribe(
+        (pages: any) => {
           this.pages = pages;
         }
-        });
-      this.pageService.findPageById(this.pageId)
-        .subscribe((page) => {
-        if (page) {
-          this.page = page;
-          this.pageName = this.page['name'];
-          this.pageDesc = this.page['description'];
+      );
+  }
+
+  update() {
+    this.pageService.updatePage(this.pid, this.page)
+      .subscribe(
+        (page: any) => {
+          this.router.navigate(['user/' + this.userId, 'website', this.wid, 'page']);
         }
-      });
-    });
+      );
   }
 
-  editPage() {
-    // this.page['name'] = this.pageName;
-    // this.page['description'] = this.pageDesc;
-    // this.page = this.pageService.updatePage(this.pageId, this.page);
-    this.page['name'] = this.pageName;
-    this.page['description'] = this.pageDesc;
-    this.pageService.updatePage(this.pageId, this.page)
-      .subscribe((page) => {
-        this.page = page;
-      });
-  }
-
-  deletePage() {
-    this.pageService.deletePage(this.pageId)
-      .subscribe((pages) => {
-        this.pages = pages;
-
-      });
+  delete() {
+    this.pageService.deletePage(this.pid)
+      .subscribe(
+        (page: any) => {
+          this.router.navigate(['user/' + this.userId, 'website', this.wid, 'page']);
+        }
+      );
   }
 
 }

@@ -5,34 +5,32 @@ import {WidgetService} from '../../../services/widget.service.client';
 @Component({
   selector: 'app-widget-edit',
   templateUrl: './widget-edit.component.html',
-  styleUrls: ['./widget-edit.component.css']
+  styleUrls: ['./widget-edit.component.css'],
 })
-
 export class WidgetEditComponent implements OnInit {
 
-  userId: String;
-  websiteId: String;
-  pageId: String;
-  widgetId: String;
-  widget: {};
-  widgetType: String;
+  userId: string;
+  websiteId: string;
+  pageId: string;
+  widgetId: string;
+  widget = {};
 
   constructor(private widgetService: WidgetService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoutes: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoutes.params.subscribe(params => {
       this.userId = params['userId'];
       this.websiteId = params['wid'];
       this.pageId = params['pid'];
       this.widgetId = params['wgid'];
       this.widgetService.findWidgetById(this.widgetId)
-        .subscribe((widget) => {
-          this.widget = widget;
-          this.widgetType = widget['widgetType'];
-        });
+        .subscribe(
+          (widget: any) => {
+            this.widget = widget;
+          }
+        );
     });
   }
-
 }

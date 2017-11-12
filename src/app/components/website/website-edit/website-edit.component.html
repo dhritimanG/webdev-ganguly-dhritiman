@@ -34,8 +34,7 @@
       </div>
 
       <div class="dg-nav-items navbar-text pull-right" style="margin-right: 0px">
-        <a (click)="updateWebsite()"
-           [routerLink]="['/user', userId, 'website']">
+        <a (click)="update()">
           <span class="glyphicon glyphicon-ok"></span>
         </a>
       </div>
@@ -66,19 +65,30 @@
 
 <div class="dg-right-pane col-sm-7">
 
-  <div class="dg-right-pane-items">
-    <label>Website Name</label>
-    <input class="form-control"/>
-  </div>
+  <label class="label"
+         for="name">
+    Name
+  </label>
+  <input type="text"
+         id="name"
+         name="name"
+         [(ngModel)]="website['name']"
+         class="form-control"
+         placeholder="Name" />
+  <label for="description"
+         class="label">
+    Description
+  </label>
+  <textarea class="form-control"
+            id="description"
+            rows="3"
+            name="description"
+            [(ngModel)]="website['description']"
+            placeholder="Description">
+        </textarea>
 
   <div class="dg-right-pane-items">
-    <label>Website Description</label>
-    <textarea class="form-control"></textarea>
-  </div>
-
-  <div class="dg-right-pane-items">
-    <a (click)="deleteWebsite()"
-       [routerLink]="['/user', userId, 'website']" class="btn btn-danger btn-block">Delete</a>
+    <a (click)="delete()" class="btn btn-danger btn-block">Delete</a>
   </div>
 
 

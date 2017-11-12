@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-widget-header',
@@ -9,63 +9,72 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class WidgetHeaderComponent implements OnInit {
 
-  headerText: String;
-  headerSize: String;
-  userId: String;
-  websiteId: String;
-  pageId: String;
-  widgetId: String;
-  wgEdited: Boolean;
+  textHeader: string;
+  sizeHeader: string;
+  userId: string;
+  wid: string;
+  pid: string;
+  wgid: string;
   widget = {};
+  widgets = [{}];
+
   constructor(private widgetService: WidgetService,
-              private activatedRoutes: ActivatedRoute) { }
+              private activatedRoutes: ActivatedRoute,
+              private router: Router) {
+  }
 
   ngOnInit() {
     this.activatedRoutes.params.subscribe(params => {
-      this.userId = params['uid'];
-      this.websiteId = params['wid'];
-      this.pageId = params['pid'];
-      this.headerText = 'Home Page';
-      this.headerSize = '2';
-      this.widgetId = params['wgid'];
-      if (this.widgetId) {
-        this.widget = this.widgetService.findWidgetById(this.widgetId);
-        this.wgEdited = true;
-        this.headerText = this.widget['text'];
-        this.headerSize = this.widget['size'];
+      this.userId = params['userId'];
+      this.wid = params['wid'];
+      this.pid = params['pid'];
+      this.wgid = params['wgid'];
+      if (this.wgid) {
+        this.widgetService.findWidgetById(this.wgid)
+          .subscribe(
+            (widget: any) => {
+              this.widget = widget;
+              this.textHeader = widget['text'];
+              this.sizeHeader = widget['size'];
+            }
+          );
       }
     });
   }
 
-  createWidget() {
-    this.widget['widgetType'] = 'HEADER';
-    this.widget['text'] = this.headerText;
-    this.widget['size'] = this.headerSize;
-    this.widgetService.createWidget(this.pageId, this.widget)
-      .subscribe((widget) => {
-        if (widget) {
-          this.widget = widget;
+  create() {
+    this.widget['type'] = 'HEADING';
+    this.widget['text'] = this.textHeader;
+    this.widget['size'] = this.sizeHeader;
+    this.widgetService.createWidget(this.pid, this.widget)
+      .subscribe((data) => {
+        if (data) {
+          this.widget = data;
+          this.router.navigate(['/user', this.userId,
+            'website', this.wid, 'page', this.pid, 'widget']);
         }
       });
   }
 
-  updateWidget() {
-    this.widget['widgetType'] = 'HEADER';
-    this.widget['text'] = this.headerText;
-    this.widget['size'] = this.headerSize;
-    this.widgetService.updateWidget(this.widgetId, this.widget)
-      .subscribe((widget) => {
-        if (widget) {
-          this.widget = widget;
+  update() {
+    this.widget['type'] = 'HEADING';
+    this.widget['text'] = this.textHeader;
+    this.widget['size'] = this.sizeHeader;
+    this.widgetService.updateWidget(this.wgid, this.widget)
+      .subscribe(
+        (widgets: any) => {
+          this.router.navigate(['user/' + this.userId, 'website', this.wid, 'page', this.pid, 'widget']);
         }
-      });
+      );
   }
 
-  deleteWidget() {
-    this.widgetService.deleteWidget(this.widgetId)
-      .subscribe((widget) => {
-
-      });
+  delete() {
+    this.widgetService.deleteWidget(this.wgid)
+      .subscribe(
+        (widgets: any) => {
+          this.router.navigate(['user/' + this.userId, 'website', this.wid, 'page', this.pid, 'widget']);
+        }
+      );
   }
 
 }

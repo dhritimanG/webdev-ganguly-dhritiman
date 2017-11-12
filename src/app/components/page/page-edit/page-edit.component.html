@@ -34,8 +34,7 @@
       </div>
 
       <div class="dg-nav-items navbar-text pull-right" style="margin-right: 0px">
-        <a (click)="editPage()"
-           [routerLink]="['/user', userId, 'website', websiteId, 'page']">
+        <a (click)="update()">
           <span class="glyphicon glyphicon-ok"></span>
         </a>
       </div>
@@ -66,13 +65,15 @@
 
 <div class="dg-right-pane col-sm-7">
 
+  <form #f="ngForm">
   <div class="dg-right-pane-items">
     <label>Name</label>
     <input placeholder="Page Name"
            name="pageName"
+           id = "pageName"
            type="text"
            class="form-control"
-           ngModel
+           [(ngModel)]="page['name']"
            required
            #username="ngModel"/>
   </div>
@@ -81,16 +82,17 @@
     <label>Description</label>
     <textarea placeholder="Page Description"
               name="pageDesc"
+              id = "pageDesc"
               type="text"
               class="form-control"
-              ngModel
+              [(ngModel)]="page['description']"
               required
               #username="ngModel"></textarea>
   </div>
+  </form>
 
   <div class="dg-right-pane-items">
-    <a (click)="deletePage()"
-       [routerLink]="['/user', userId, 'website', websiteId, 'page']"
+    <a (click)="delete()"
        class="btn btn-danger btn-block">Delete
     </a>
   </div>
