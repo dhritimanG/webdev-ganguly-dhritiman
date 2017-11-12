@@ -17,6 +17,8 @@ export class WidgetYoutubeComponent implements OnInit {
   wgid: string;
   widget = {};
   widgets = [{}];
+  name: string;
+  text: string;
 
   constructor(private widgetService: WidgetService,
               private activatedRoutes: ActivatedRoute,
@@ -38,6 +40,21 @@ export class WidgetYoutubeComponent implements OnInit {
           }
         );
     });
+  }
+
+  create() {
+    this.widget['type'] = 'YOUTUBE';
+    this.widget['name'] = this.name;
+    this.widget['text'] = this.text;
+    this.widget['url'] = this.url;
+    this.widget['width'] = this.width;
+    this.widgetService.createWidget(this.pid, this.widget)
+      .subscribe((data) => {
+        if (data) {
+          this.widget = data;
+          this.router.navigate(['/user', this.userId, 'website', this.wid, 'page', this.pid, 'widget']);
+        }
+      });
   }
 
   update() {
