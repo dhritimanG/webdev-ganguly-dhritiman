@@ -90,4 +90,19 @@ module.exports = function (app) {
 
     res.redirect(callbackUrl);
   }
+
+  function updateWidgetOrder(req, res) {
+    var pageId = req.param('pageId');
+    var startIndex = parseInt(req.query.initial);
+    var endIndex = parseInt(req.query.final);
+
+    WidgetModel
+      .reorderWidget(pageId, startIndex, endIndex)
+      .then(function (resp) {
+        res.json(resp);
+      }, function (err) {
+        res.status(500).send(err);
+    });
+  }
+
 }

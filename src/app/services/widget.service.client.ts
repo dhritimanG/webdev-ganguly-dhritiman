@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 @Injectable()
 
 export class WidgetService {
+  pageId
 
   constructor(private http: Http) {
   }
@@ -64,6 +65,18 @@ export class WidgetService {
 
   deleteWidget(widgetId: string) {
     return this.http.delete(this.baseUrl + '/api/widget/' + widgetId)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
+  }
+
+  updateWidgetPosition(pageId, initial, final) {
+    const url = this.baseUrl + '/api/page/' + pageId + '/widget?initial='
+      + initial + '&final=' + final;
+    return this.http.put(url, null)
       .map(
         (res: Response) => {
           const data = res.json();

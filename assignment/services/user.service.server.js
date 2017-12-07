@@ -130,6 +130,10 @@ module.exports = function (app) {
       .then(
         function(user) {
           if(user) {
+            // user.username === usrn
+          // && bcrypt.compareSync(pass, user.password)) {
+            //user.username === usrn
+          // && bcrypt.compareSync(pass, user.password)
             return done(null, user);
           } else {
             return done(null, false);
@@ -171,11 +175,21 @@ module.exports = function (app) {
 
   function createUser(req, res) {
     var user = req.body;
+    // user.password = bcrypt.hashSync(user.password);
     console.log(user);
     userModel.createUser(user)
       .then(function (user) {
         console.log(user);
-        res.json(user);
+        if(user){
+          req.login(user, function(err) {
+            if(err) {
+              res.status(400).send(err);
+            } else {
+              res.json(user);
+            }
+          });
+        }
+
       })
   }
 

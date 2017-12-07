@@ -21,7 +21,7 @@
 </nav>
 
 <div class="container-fluid" style="margin-top: 70px">
-
+  <ul class="list-group" appSortable (newIndexes)="updatePosition($event)">
   <div *ngFor="let widget of widgets">
     <div [ngSwitch]="widget['type']">
 
@@ -126,6 +126,7 @@
 
     </div>
   </div>
+  </ul>
 </div>
 
 <footer id="foot-nav" class="footer">

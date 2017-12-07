@@ -29,16 +29,16 @@ export class RegisterComponent implements OnInit {
     this.user = new User('', '', '', '', '');
   }
 
-  onRegister(username, password) {
-    this.username = username;
-    this.password = password;
-
-    this.userService.register(this.username, this.password)
-      .subscribe((user) => {
-      this.sharedService.user = user;
-      this.router.navigate(['/user']);
-      });
-  }
+  // onRegister(username, password) {
+  //   this.username = username;
+  //   this.password = password;
+  //
+  //   this.userService.register(this.username, this.password)
+  //     .subscribe((user) => {
+  //     this.sharedService.user = user;
+  //     this.router.navigate(['/user']);
+  //     });
+  // }
 
   createUser() {
     this.user.username = this.registrationForm.value.userName;
@@ -54,7 +54,8 @@ export class RegisterComponent implements OnInit {
     } else {
       this.userService.createUser(this.user)
         .subscribe((user) => {
-          this.user = user;
+          this.sharedService.user = user;
+          this.router.navigate(['/user']);
           if (this.user) {
             console.log(user);
           } else {
