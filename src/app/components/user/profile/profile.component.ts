@@ -15,6 +15,8 @@ export class ProfileComponent implements OnInit {
   @ViewChild('f') loginForm: NgForm;
 
   userId: String;
+  username: String;
+  firstName: String;
   user: any;
   errorFlag: boolean;
   errorMsg = 'Invalid username or password !';
@@ -34,6 +36,9 @@ export class ProfileComponent implements OnInit {
     this.route.params
       .subscribe(params => {
         this.user = this.sharedService.user || {};
+        // this.username = this.sharedService.user.username;
+        // this.firstName = this.sharedService.user.firstName;
+        // this.userId = this.sharedService.user._id;
         console.log(this.user.username);
         console.log(this.user.websites);
       });

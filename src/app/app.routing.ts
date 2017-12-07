@@ -33,7 +33,7 @@ const APP_ROUTES: Routes = [
   {path: 'test', component: TestComponent},
   {path : 'landing' , component: LandingComponent},
   {path : 'register' , component: RegisterComponent},
-  {path : 'user' , component: ProfileComponent},
+  {path : 'user' , component: ProfileComponent, canActivate: [AuthenticationService]},
   {path : 'user/:userId' , component: ProfileComponent},
   {path : 'website' , component: WebsiteListComponent},
   {path : 'user/:userId/website' , component: WebsiteListComponent},

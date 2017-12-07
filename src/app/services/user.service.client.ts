@@ -16,19 +16,20 @@ export class UserService {
 
   baseUrl = environment.baseUrl;
 
-  api = {
-    'createUser'   : this.createUser,
-    'findUserById' : this.findUserById,
-    'findUserByUsername' : this.findUserByUsername,
-    'updateUser' : this.updateUser,
-    'deleteUser' : this.deleteUser,
-    'findUserByCredentials' : this.findUserByCredentials
-  };
+  // api = {
+  //   'createUser'   : this.createUser,
+  //   'findUserById' : this.findUserById,
+  //   'findUserByUsername' : this.findUserByUsername,
+  //   'updateUser' : this.updateUser,
+  //   'deleteUser' : this.deleteUser,
+  //   'findUserByCredentials' : this.findUserByCredentials
+  // };
 
   loggedIn() {
     console.log('hello from user client logged in');
     const url = 'http://localhost:3100/api/loggedIn';
     this.options.withCredentials = true;
+    console.log(this.options.withCredentials);
     return this.http.post(url, '', this.options)
       .map((res: Response) => {
         const user = res.json();
@@ -80,6 +81,7 @@ export class UserService {
 
 
   createUser(user: any) {
+    this.options.withCredentials = true;
     return this.http.post(this.baseUrl + '/api/user/', user)
       .map(
         (res: Response) => {
