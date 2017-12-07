@@ -9,7 +9,8 @@ module.exports = function (app) {
   app.delete('/api/widget/:widgetId', deleteWidget);
   app.put('/api/widget/:widgetId', updateWidget);
   app.put('/api/page/:pageId/widget', sortWidgets);
-  app.post ("/api/upload", upload.single('myFile'), uploadImage);
+  app.post ('/api/upload', upload.single('myFile'), uploadImage);
+  app.put('/api/page/:pageId/widget', updateWidgetOrder);
 
 
   function findAllWidgetsForPage(req, res) {
@@ -86,7 +87,7 @@ module.exports = function (app) {
     widget.url = '/assets/uploads/'+filename;
     widget.width = width;
 
-    var callbackUrl   =  "/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget" ;
+    var callbackUrl   =  '/user/' + userId + '/website/' + websiteId + '/page/' + pageId + '/widget' ;
 
     res.redirect(callbackUrl);
   }

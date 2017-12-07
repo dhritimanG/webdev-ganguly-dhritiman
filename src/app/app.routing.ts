@@ -35,6 +35,7 @@ const APP_ROUTES: Routes = [
   {path : 'register' , component: RegisterComponent},
   {path : 'user' , component: ProfileComponent},
   {path : 'user/:userId' , component: ProfileComponent},
+  {path : 'website' , component: WebsiteListComponent},
   {path : 'user/:userId/website' , component: WebsiteListComponent},
   {path : 'user/:userId/website/new', component: WebsiteNewComponent},
   {path : 'user/:userId/website/:wid', component: WebsiteEditComponent},
