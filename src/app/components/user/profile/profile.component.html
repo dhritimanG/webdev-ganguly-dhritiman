@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #007bff;">
   <!-- Navbar content -->
   Profile
-  <a [routerLink]="['/user', userId]">
+  <a [routerLink]="['/user']">
     <div>
       <span class="glyphicon glyphicon-ok pull-right" style="font-size: 30px; color: white"></span>
     </div>
@@ -50,7 +50,7 @@
   </div>
 
   <a routerLink="/user/{{user._id}}/website" class="btn btn-primary btn-block">Websites</a>
-  <a class="btn btn-danger btn-block" routerLink= "/landing">Logout</a>
+  <a class="btn btn-danger btn-block" (click)="logout()">Logout</a>
 
 </div>
 

@@ -33,6 +33,10 @@ import {WidgetService} from './services/widget.service.client';
 import { WidgetTextComponent } from './components/widget/widget-edit/widget-text/widget-text.component';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { WidgetHtmlComponent } from './components/widget/widget-edit/widget-html/widget-html.component';
+import {SharedService} from './services/shared.service.client';
+import {AuthenticationService} from './services/authentication.service.client';
+import { FlickrImageSearchComponent } from './components/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
+import {FlickrService} from './services/flickr.service.client';
 
 
 @NgModule({
@@ -59,7 +63,8 @@ import { WidgetHtmlComponent } from './components/widget/widget-edit/widget-html
     WidgetYoutubeComponent,
     LandingComponent,
     WidgetTextComponent,
-    WidgetHtmlComponent
+    WidgetHtmlComponent,
+    FlickrImageSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,7 @@ import { WidgetHtmlComponent } from './components/widget/widget-edit/widget-html
     Routing
   ],
   // Client Side services here
-  providers: [ TestService, UserService, WebsiteService, PageService, WidgetService],
+  providers: [ TestService, UserService, WebsiteService, PageService, WidgetService, SharedService, AuthenticationService, FlickrService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -21,8 +21,10 @@ import {WidgetEditComponent} from './components/widget/widget-edit/widget-edit.c
 import {WidgetHeaderComponent} from './components/widget/widget-edit/widget-header/widget-header.component';
 import {WidgetImageComponent} from './components/widget/widget-edit/widget-image/widget-image.component';
 import {WidgetYoutubeComponent} from './components/widget/widget-edit/widget-youtube/widget-youtube.component';
-import {WidgetTextComponent} from "./components/widget/widget-edit/widget-text/widget-text.component";
-import {WidgetHtmlComponent} from "./components/widget/widget-edit/widget-html/widget-html.component";
+import {WidgetTextComponent} from './components/widget/widget-edit/widget-text/widget-text.component';
+import {WidgetHtmlComponent} from './components/widget/widget-edit/widget-html/widget-html.component';
+import {AuthenticationService} from './services/authentication.service.client';
+import {FlickrImageSearchComponent} from './components/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
 
 
 
@@ -31,6 +33,7 @@ const APP_ROUTES: Routes = [
   {path: 'test', component: TestComponent},
   {path : 'landing' , component: LandingComponent},
   {path : 'register' , component: RegisterComponent},
+  {path : 'user' , component: ProfileComponent},
   {path : 'user/:userId' , component: ProfileComponent},
   {path : 'user/:userId/website' , component: WebsiteListComponent},
   {path : 'user/:userId/website/new', component: WebsiteNewComponent},
@@ -45,7 +48,8 @@ const APP_ROUTES: Routes = [
   {path : 'user/:userId/website/:wid/page/:pid/widget/new/image' , component: WidgetImageComponent},
   {path : 'user/:userId/website/:wid/page/:pid/widget/new/youtube' , component: WidgetYoutubeComponent},
   {path : 'user/:userId/website/:wid/page/:pid/widget/new/text' , component: WidgetTextComponent},
-  {path : 'user/:userId/website/:wid/page/:pid/widget/new/html' , component: WidgetHtmlComponent}
+  {path : 'user/:userId/website/:wid/page/:pid/widget/new/html' , component: WidgetHtmlComponent},
+  {path : 'user/:userId/website/:wid/page/:pid/widget/new/image/search', component: FlickrImageSearchComponent}
 
 
 ];

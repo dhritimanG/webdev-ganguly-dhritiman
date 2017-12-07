@@ -3,14 +3,16 @@ import { Http, RequestOptions, Response } from '@angular/http';
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import {SharedService} from './shared.service.client';
 
 // injecting service into module
 @Injectable()
 
 export class UserService {
 
-  constructor(private http: Http) {
+  constructor(private sharedService: SharedService, private http: Http, private router: Router) {
   }
+  options: RequestOptions = new RequestOptions;
 
   baseUrl = environment.baseUrl;
 
@@ -22,6 +24,60 @@ export class UserService {
     'deleteUser' : this.deleteUser,
     'findUserByCredentials' : this.findUserByCredentials
   };
+
+  loggedIn() {
+    console.log('hello from user client logged in');
+    const url = 'http://localhost:3100/api/loggedIn';
+    this.options.withCredentials = true;
+    return this.http.post(url, '', this.options)
+      .map((res: Response) => {
+        const user = res.json();
+        if (user !== 0) {
+          this.sharedService.user = user;
+          return true;
+        } else {
+          this.router.navigate(['/landing']);
+          return false;
+        }
+      });
+  }
+
+
+  logout() {
+    const url = 'http://localhost:3100/api/logout';
+    this.options.withCredentials = true;
+    return this.http.post(url, { }, this.options)
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  register(username, password) {
+    const url = 'http://localhost:3100/api/register';
+    const credentials = {
+      username: username,
+      password: password
+    };
+    this.options.withCredentials = true;
+    return this.http.post(url, credentials, this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
+  login(username, password) {
+    const url = 'http://localhost:3100/api/login';
+    const credentials = {
+      username: username,
+      password: password
+    };
+    this.options.withCredentials = true;
+    return this.http.post(url, credentials, this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
 
   createUser(user: any) {
     return this.http.post(this.baseUrl + '/api/user/', user)
@@ -74,6 +130,7 @@ export class UserService {
   }
 
   findUserByCredentials(username: String, password: String) {
+    console.log('hits client service?');
     return this.http.get(this.baseUrl + '/api/user?username=' + username + '&password=' + password)
       .map(
         (res: Response) => {
