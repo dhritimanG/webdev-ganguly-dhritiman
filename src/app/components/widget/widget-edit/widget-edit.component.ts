@@ -14,6 +14,7 @@ export class WidgetEditComponent implements OnInit {
   pageId: string;
   widgetId: string;
   widget = {};
+  type: string;
 
   constructor(private widgetService: WidgetService,
               private activatedRoutes: ActivatedRoute) {
@@ -29,6 +30,7 @@ export class WidgetEditComponent implements OnInit {
         .subscribe(
           (widget: any) => {
             this.widget = widget;
+            this.type = widget.type;
           }
         );
     });

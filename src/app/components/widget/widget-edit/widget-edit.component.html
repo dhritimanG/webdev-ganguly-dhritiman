@@ -1,67 +1,23 @@
-<nav id = "page-nav" class="navbar navbar-default navbar-fixed-top">
+<div [ngSwitch]="type">
 
-  <div class="navbar-text pull-left" style="margin-left: 0px;">
-    <a [routerLink]="['/user', userId, 'website', wid, 'page', pid, 'widget']">
-      <span class="glyphicon glyphicon-chevron-left pull-left"></span>
-    </a>
+  <div *ngSwitchCase="'HEADING'">
+    <app-widget-header></app-widget-header>
   </div>
 
-  <div class="navbar-header">
-    <a class="navbar-brand">
-      Widget Edit
-    </a>
+  <div *ngSwitchCase="'IMAGE'">
+    <app-widget-image></app-widget-image>
   </div>
 
-  <div class="navbar-text pull-right">
-    <a (click)="create()">
-      <span class="glyphicon glyphicon-ok pull-left"></span>
-
-    </a>
+  <div *ngSwitchCase="'YOUTUBE'">
+    <app-widget-youtube></app-widget-youtube>
   </div>
 
-</nav>
+  <div *ngSwitchCase="'HTML'">
+    <app-widget-html></app-widget-html>
+  </div>
 
-<div class="container-fluid" style="margin-top: 70px">
-  <form>
-    <div class="form-group">
-      <label for="textHeader">
-        Text
-      </label>
-      <input [(ngModel)]="textHeader"
-             name="textHeader"
-             required
-             type="text"
-             class="form-control"
-             id="textHeader"
-             placeholder="Home Page">
-    </div>
+  <div *ngSwitchCase="'TEXT'">
+    <app-widget-text></app-widget-text>
+  </div>
 
-    <div class="form-group">
-      <label for="sizeHeader">
-        Size
-      </label>
-      <input [(ngModel)]="sizeHeader"
-             required
-             name="sizeHeader"
-             type="number"
-             class="form-control"
-             id="sizeHeader"
-             placeholder="3">
-    </div>
-
-    <div class="form-group">
-      <a (click)="delete()"
-         class="btn btn-danger btn-block ">
-        Delete
-      </a>
-    </div>
-  </form>
 </div>
-
-<footer id="foot-nav" class="footer">
-  <div class="container-fluid">
-    <a [routerLink]="['/user', userId]">
-      <span class="glyphicon glyphicon-user pull-right" style="font-size: 30px"></span>
-    </a>
-  </div>
-</footer>

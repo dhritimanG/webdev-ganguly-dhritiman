@@ -28,6 +28,12 @@
       <quill-editor [(ngModel)]="text" name="text"></quill-editor>
     </div>
     <div class="form-group">
+      <a (click)="update()"
+         class="btn btn-primary btn-block">
+        Update Widget
+      </a>
+    </div>
+    <div class="form-group">
       <a (click)="delete()"
          class="btn btn-danger btn-block">
         Delete
