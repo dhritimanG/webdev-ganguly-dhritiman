@@ -110,8 +110,8 @@ module.exports = function (app) {
     passport.authenticate('facebook', { scope : 'email' }));
   app.get ('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      successRedirect: 'http://localhost:4200/user',
-      failureRedirect: 'http://localhost:4200/landing'
+      successRedirect: '/user',
+      failureRedirect: '/landing'
     }));
 
   function facebookStrategy(token, refreshToken, profile, done) {
