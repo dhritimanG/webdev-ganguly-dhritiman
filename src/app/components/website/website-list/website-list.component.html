@@ -15,7 +15,7 @@
       </div>
 
       <div class="dg-nav-items navbar-text pull-right" style="margin-right: 0px">
-        <a [routerLink]="['/user', userId, 'website', 'new']">
+        <a [routerLink]="['/website', 'new']">
           <span class="glyphicon glyphicon-plus" style="margin-right: 15px"></span>
         </a>
       </div>
@@ -26,10 +26,10 @@
 <div class="container-fluid" style="margin-top: 70px">
   <ul class="list-group">
       <li *ngFor="let website of websites" class="list-group-item">
-        <a [routerLink]="['/user', userId, 'website', website._id,'page']">
+        <a [routerLink]="['/website', website._id,'page']">
           {{website.name}}
         </a>
-        <a [routerLink]="['/user', userId, 'website', website._id]"
+        <a [routerLink]="['/website', website._id]"
            class="pull-right">
           <span class="glyphicon glyphicon-cog"></span>
         </a>
@@ -40,7 +40,7 @@
 
 <footer class="footer">
   <div class="container-fluid">
-    <a [routerLink]="['/user', userId]">
+    <a [routerLink]="['/user']">
       <span class= "glyphicon glyphicon-user pull-right" style="font-size: 30px; color: white"></span>
     </a>
   </div>

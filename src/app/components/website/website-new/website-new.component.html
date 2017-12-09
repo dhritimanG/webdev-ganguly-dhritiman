@@ -4,7 +4,7 @@
     <div class="col-sm-5 hidden-xs">
 
       <div class="dg-nav-items navbar-text pull-left" style="margin-left: 0px">
-        <a [routerLink]="['/user', userId, 'website']">
+        <a [routerLink]="['/website']">
           <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
       </div>
@@ -17,7 +17,7 @@
       </div>
 
       <div class="dg-nav-items navbar-text pull-right" style="margin-right: 0px">
-        <a [routerLink]="['/user', userId, 'website', 'new']">
+        <a [routerLink]="['/website', 'new']">
           <span class="glyphicon glyphicon-plus"></span>
         </a>
       </div>
@@ -49,10 +49,10 @@
   <ul class="list-group dg-right-pane-items">
     <div *ngFor="let website of websites">
       <li class="list-group-item">
-        <a [routerLink]="['/user', userId, 'website', website._id,'page']">
+        <a [routerLink]="['/user', 'website', website._id,'page']">
           {{website.name}}
         </a>
-        <a [routerLink]="['/user', userId, 'website', website._id]"
+        <a [routerLink]="['/website', website._id]"
            class="pull-right">
           <span class="glyphicon glyphicon-cog"></span>
         </a>

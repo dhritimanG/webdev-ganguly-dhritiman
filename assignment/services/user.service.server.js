@@ -19,6 +19,16 @@ module.exports = function (app) {
   app.post('/api/login',
     passport.authenticate('local'), login);
 
+  app.get ('/auth/google',
+    passport.authenticate('google',
+      { scope :['profile' , 'email']
+      }));
+  app.get('/auth/google/callback',
+    passport.authenticate('google', {
+      successRedirect: 'http://localhost:4200/user',
+      failureRedirect: 'http://localhost:4200/login'
+    }));
+
 
   function register(req, res) {
     var user = req.body;
@@ -111,6 +121,55 @@ module.exports = function (app) {
       callbackURL  : 'http://localhost:3100/auth/facebook/callback'
     };
   }
+
+  //Google Strategy
+  var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+  var googleConfig = {
+    clientID: '130850661767-t7n37l7ddpa8bio1acmq7fanbthnnhqm.apps.googleusercontent.com',
+    clientSecret: 'c4BEKwDKUoal-Qyr1g3mG9Q8',
+    callbackURL: 'http://localhost:3100/auth/google/callback'
+  };
+  passport.use(new GoogleStrategy(googleConfig, googleStrategy));
+
+
+  function googleStrategy(token, refreshToken, profile, done) {
+    userModel
+      .findUserByGoogleId(profile.id)
+      .then(function (user) {
+          if (user){
+            return done(null,user);
+          }else{
+            var email = profile.emails[0].value;
+            var emailParts = email.split("@");
+            var newGoogleUser = {
+              username: emailParts[0],
+              firstName:profile.name.givenName,
+              lastName:profile.name.familyName,
+              email:email,
+              google:{
+                id:profile.id,
+                token:token
+              }
+            };
+            return userModel.createUser(newGoogleUser);
+          }
+        },function (err) {
+          if (err){
+            return done(err);
+          }}
+
+      )
+      .then(function (user) {
+        return done(null,user);
+      },function (err) {
+        if(err){
+          return done(err);
+        }
+
+      });
+  }
+
+
 
   passport.use(
     new FacebookStrategy(facebookConfig, facebookStrategy));

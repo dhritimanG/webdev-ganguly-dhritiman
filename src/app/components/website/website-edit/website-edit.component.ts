@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
 import {WebsiteService} from '../../../services/website.service.client';
+import {SharedService} from '../../../services/shared.service.client';
 
 @Component({
   selector: 'app-website-edit',
@@ -20,25 +21,35 @@ export class WebsiteEditComponent implements OnInit {
   constructor(private webService: WebsiteService,
               private activatedRoute: ActivatedRoute,
               private userService: UserService,
-              private router: Router) {
+              private router: Router,
+              private sharedService: SharedService) {
   }
 
   ngOnInit() {
     this.activatedRoute.params
       .subscribe(
         (params: any) => {
-          this.userId = params['userId'];
-          this.wid = params['wid'];
+          // this.userId = params['userId'];
+          this.user = this.sharedService.user;
         }
       );
-    this.webService.findWebsiteById(this.wid)
+    this.userService.findUserById(this.user._id)
       .subscribe(
-        (website: any) => {
-          this.website = website;
+        (user: any) => {
+          this.user = user;
         }
       );
 
-    this.webService.findWebsitesByUser(this.userId)
+
+    this.activatedRoute.params
+      .subscribe(params => {
+        this.user = this.sharedService.user || {};
+        console.log(this.user.username);
+        console.log(this.user._id);
+      });
+
+
+    this.webService.findWebsitesByUser(this.user._id)
       .subscribe(
         (websites: any) => {
           this.websites = websites;
@@ -50,7 +61,7 @@ export class WebsiteEditComponent implements OnInit {
     this.webService.updateWebsite(this.wid, this.website)
       .subscribe(
         (website: any) => {
-          this.router.navigate(['user/' + this.userId, 'website']);
+          this.router.navigate(['website']);
         }
       );
   }
@@ -59,7 +70,7 @@ export class WebsiteEditComponent implements OnInit {
     this.webService.deleteWebsite(this.wid)
       .subscribe(
         (website: any) => {
-          this.router.navigate(['user/' + this.userId, 'website']);
+          this.router.navigate(['website']);
         }
       );
   }
