@@ -12,6 +12,7 @@ UserModel.findAllUsers = findAllUsers;
 UserModel.deleteUser = deleteUser;
 UserModel.updateUser = updateUser;
 UserModel.findUserByFacebookId = findUserByFacebookId;
+UserModel.findUserByGoogleId = findUserByGoogleId;
 
 module.exports = UserModel;
 
@@ -45,4 +46,8 @@ function deleteUser(id) {
 
 function updateUser(id, user) {
   return UserModel.update({_id: id}, user);
+}
+function findUserByGoogleId(googleId) {
+  return UserModel
+    .findOne({"google.id": googleId});
 }
