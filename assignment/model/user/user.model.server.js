@@ -12,7 +12,11 @@ UserModel.findAllUsers = findAllUsers;
 UserModel.deleteUser = deleteUser;
 UserModel.updateUser = updateUser;
 UserModel.findUserByFacebookId = findUserByFacebookId;
+<<<<<<< HEAD
 UserModel.findUserByGoogleId = findUserByGoogleId
+=======
+UserModel.findUserByGoogleId = findUserByGoogleId;
+>>>>>>> 9a48160d9e9e465313e8567476bb95d89d57bca3
 
 module.exports = UserModel;
 
